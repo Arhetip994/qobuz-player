@@ -424,7 +424,7 @@
           <div class="qobuz-settings-body">
             <div class="qobuz-settings-section-title">Paxsenix API Key</div>
             <div class="qobuz-api-key-row">
-              <input type="password" id="qobuz-pax-key-input" class="qobuz-api-key-input" placeholder="sk-paxsenix-…" autocomplete="off" spellcheck="false">
+              <input type="text" id="qobuz-pax-key-input" class="qobuz-api-key-input" placeholder="sk-paxsenix-…" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" inputmode="text">
               <button id="qobuz-pax-key-save" class="qobuz-api-key-save">Save</button>
             </div>
             <div id="qobuz-pax-key-status" class="qobuz-api-key-status"></div>
