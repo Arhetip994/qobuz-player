@@ -173,8 +173,8 @@
         .qobuz-input:focus { border-color: var(--accent-primary, #1a62b9); background: #1a1a1a !important; }
         .qobuz-input-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-subdued, #666); display: flex; align-items: center; }
 
-        .qobuz-tabs { display: flex; background: var(--bg-surface, #202020); padding: 4px; border-radius: 8px; gap: 4px; }
-        .qobuz-tab { flex: 1; border: none; background: transparent; color: var(--text-secondary, #888); padding: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border-radius: 6px; transition: 0.2s; }
+        .qobuz-tabs { display: flex; background: var(--bg-surface, #202020); padding: 3px; border-radius: 999px; gap: 2px; }
+        .qobuz-tab { flex: 1; border: none; background: transparent; color: var(--text-secondary, #888); padding: 5px 12px; font-size: 12px; font-weight: 600; cursor: pointer; border-radius: 999px; transition: 0.2s; }
         .qobuz-tab:hover { color: var(--text-primary, #fff); background: rgba(255,255,255,0.05); }
         .qobuz-tab.active { background: var(--bg-highlight, #2a2a2a); color: var(--text-primary, #fff); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
 
@@ -183,7 +183,7 @@
         .qobuz-quality-select { background: var(--bg-surface, #202020); border: 1px solid var(--border-color, #404040); border-radius: 6px; color: var(--text-primary, #fff); padding: 6px 10px; font-size: 12px; cursor: pointer; flex: 1; }
 
         /* Content */
-        .qobuz-content { flex: 1; overflow-y: auto; padding: 0 0 24px; position: relative; background: var(--bg-base, #121212); }
+        .qobuz-content { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 0 0 24px; position: relative; background: var(--bg-base, #121212); width: 100%; box-sizing: border-box; }
         .qobuz-content::-webkit-scrollbar { width: 8px; }
         .qobuz-content::-webkit-scrollbar-thumb { background: var(--bg-highlight, #333); border-radius: 4px; }
 
@@ -223,8 +223,8 @@
         .qobuz-track-item:hover .qobuz-play-overlay { opacity: 1; }
         .qobuz-track-item.playing .qobuz-play-overlay { opacity: 1; background: rgba(0,0,0,0.5); color: white; }
 
-        .qobuz-track-title { font-size: 14px; color: var(--text-primary, #fff); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 6px; }
-        .qobuz-track-artist { font-size: 12px; color: var(--text-secondary, #888); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .qobuz-track-title { font-size: 14px; color: var(--text-primary, #fff); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 6px; line-height: 1.2; }
+        .qobuz-track-artist { font-size: 12px; color: var(--text-secondary, #888); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; display: flex; align-items: center; }
         .qobuz-track-time { color: var(--text-subdued, #666); font-size: 12px; font-variant-numeric: tabular-nums; }
         
         /* Clickable Artist */
@@ -239,12 +239,12 @@
         .qobuz-track-item .qobuz-save-btn-mini.saved { opacity: 1; }
 
         /* Grid Items */
-        .qobuz-grid-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; padding: 20px; }
+        .qobuz-grid-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; padding: 20px; width: 100%; box-sizing: border-box; }
         .qobuz-card { background: var(--bg-elevated, #181818); padding: 12px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
         .qobuz-card:hover { background: var(--bg-surface, #202020); transform: translateY(-4px); border-color: var(--bg-highlight, #333); }
         .qobuz-card-img { width: 100%; aspect-ratio: 1; border-radius: 6px; object-fit: cover; background: var(--bg-surface, #202020); margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-        .qobuz-card-title { font-size: 14px; font-weight: 600; color: var(--text-primary, #fff); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
-        .qobuz-card-sub { font-size: 12px; color: var(--text-secondary, #888); display: flex; align-items: center; gap: 4px; overflow: hidden; }
+        .qobuz-card-title { font-size: 14px; font-weight: 600; color: var(--text-primary, #fff); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; line-height: 1.2; }
+        .qobuz-card-sub { font-size: 12px; color: var(--text-secondary, #888); display: flex; align-items: center; gap: 4px; overflow: hidden; line-height: 1.2; }
         .qobuz-card-sub-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 1; }
         .qobuz-card-sub-count { white-space: nowrap; flex-shrink: 0; color: var(--text-subdued, #666); }
 
@@ -252,10 +252,8 @@
         .qobuz-unavailable-icon { font-size: 32px; margin-bottom: 12px; }
 
         /* Skeleton Loading */
-        .qobux-skeleton { background: #2a2a2a; border-radius: 4px; animation: qobux-pulse 1.5s infinite ease-in-out; }
+        .qobux-skeleton { background: #222; border-radius: 4px; animation: qobux-pulse 1.5s infinite ease-in-out; display: block; }
         @keyframes qobux-pulse { 0% { opacity: 0.4; } 50% { opacity: 0.7; } 100% { opacity: 0.4; } }
-        .qobux-skeleton-row { height: 56px; margin-bottom: 8px; border-radius: 8px; background: #222; animation: qobux-pulse 1.5s infinite; }
-        .qobux-skeleton-card { aspect-ratio: 1; border-radius: 6px; background: #222; animation: qobux-pulse 1.5s infinite; }
 
         /* Player Bar Button */
         .qobuz-playerbar-btn { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border-color, #404040); background: transparent; color: #fff; cursor: pointer; font-size: 13px; font-weight: 700; transition: 0.2s; }
@@ -278,43 +276,29 @@
           position: absolute; top: 0; left: 0; right: 0; bottom: 0;
           background: var(--bg-elevated, #181818);
           border-radius: 12px;
-          z-index: 10; display: flex; flex-direction: column;
+          z-index: 20; display: flex; flex-direction: column;
           opacity: 0; visibility: hidden; transform: translateY(8px);
           transition: all 0.2s cubic-bezier(0, 0, 0.2, 1);
         }
         #qobuz-settings-panel.open { opacity: 1; visibility: visible; transform: translateY(0); }
 
         .qobuz-settings-header { padding: 16px 24px; border-bottom: 1px solid var(--border-color, #333); display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-        .qobuz-settings-header .qobuz-title { font-size: 16px; font-weight: 700; color: var(--text-primary, #fff); }
         .qobuz-settings-close { margin-left: auto; background: none; border: none; color: var(--text-secondary, #aaa); cursor: pointer; font-size: 20px; transition: 0.2s; }
         .qobuz-settings-close:hover { color: var(--text-primary, #fff); }
-
-        .qobuz-settings-body { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; }
+        .qobuz-settings-body { flex: 1; overflow-y: auto; padding: 20px 24px; display: flex; flex-direction: column; }
         .qobuz-settings-body::-webkit-scrollbar { width: 8px; }
         .qobuz-settings-body::-webkit-scrollbar-thumb { background: var(--bg-highlight, #333); border-radius: 4px; }
-
-        .qobuz-settings-section-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-secondary, #aaa); margin-bottom: 16px; }
-
-        .qobuz-api-key-row { display: flex; gap: 8px; margin-bottom: 8px; }
-        .qobuz-api-key-input { flex: 1; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border-color, #404040); background: var(--bg-surface, #202020); color: var(--text-primary, #fff); font-size: 13px; font-family: monospace; outline: none; transition: border-color 0.2s; }
+        .qobuz-api-key-input { width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border-color, #404040); background: var(--bg-surface, #202020); color: var(--text-primary, #fff); font-size: 13px; font-family: monospace; outline: none; transition: border-color 0.2s; box-sizing: border-box; }
         .qobuz-api-key-input:focus { border-color: var(--accent-primary, #1a62b9); }
-        .qobuz-api-key-save { padding: 10px 20px; background: var(--accent-primary, #1a62b9); border: none; border-radius: 8px; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: 0.2s; }
+        .qobuz-api-key-save { padding: 10px 20px; background: var(--accent-primary, #1a62b9); border: none; border-radius: 8px; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.2s; }
         .qobuz-api-key-save:hover { filter: brightness(1.15); }
-        .qobuz-api-key-status { font-size: 12px; margin-bottom: 24px; min-height: 18px; }
+        .qobuz-api-key-status { font-size: 12px; }
         .qobuz-api-key-status.ok { color: #4caf50; }
         .qobuz-api-key-status.missing { color: #f55; }
-
-        .qobuz-steps { list-style: none; padding: 0; margin: 0; counter-reset: steps; }
-        .qobuz-steps li { counter-increment: steps; display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--border-color, #222); font-size: 13px; color: var(--text-secondary, #ccc); line-height: 1.5; }
-        .qobuz-steps li:last-child { border-bottom: none; }
-        .qobuz-steps li::before { content: counter(steps); min-width: 24px; height: 24px; border-radius: 50%; background: var(--accent-primary, #1a62b9); color: #fff; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
         .qobuz-apikey-toggle-btn { display:flex; align-items:center; justify-content:space-between; width:100%; background:var(--bg-surface,#202020); border:none; border-radius:8px; color:var(--text-secondary,#aaa); font-size:13px; font-weight:600; cursor:pointer; padding:12px 16px; text-transform:uppercase; letter-spacing:0.5px; transition:background 0.2s; }
+        .qobuz-apikey-toggle-btn:hover { background:var(--bg-highlight,#2a2a2a); }
         .qobuz-clickable-album { color:var(--text-secondary,#888); font-size:12px; cursor:pointer; transition:color 0.2s; }
         .qobuz-clickable-album:hover { color:var(--accent-primary,#1a62b9); }
-        .qobuz-apikey-toggle-btn:hover { background:var(--bg-highlight,#2a2a2a); }
-        .qobuz-steps a { color: var(--accent-primary, #1a62b9); text-decoration: none; }
-        .qobuz-steps a:hover { text-decoration: underline; }
-        .qobuz-steps code { background: var(--bg-surface, #202020); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 12px; color: var(--text-primary, #fff); }
 
         /* Bulk save progress bar */
         #qobuz-save-progress {
@@ -363,28 +347,85 @@
         }
 
         @media (max-width: 768px) {
-          #qobuz-search-panel { width: 100vw; height: 100vh; max-height: 100vh; top: 0; left: 0; transform: none; border-radius: 0; border: none; }
-          #qobuz-search-panel.open { transform: none; }
-          .qobuz-header { padding: 12px 16px; gap: 12px; }
-          .qobuz-back-btn, .qobuz-close-btn { min-width: 44px; min-height: 44px; -webkit-tap-highlight-color: transparent; }
+          #qobuz-search-panel {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100dvh; max-height: 100dvh;
+            transform: none !important;
+            border-radius: 0; border: none;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+            box-sizing: border-box;
+            overflow-x: hidden;
+          }
+          #qobuz-search-panel.open { transform: none !important; }
+
+          #qobuz-settings-panel { border-radius: 0; }
+          .qobuz-settings-header { padding: calc(8px + env(safe-area-inset-top)) 16px 8px 16px; }
+          .qobuz-settings-body { padding: 16px; }
+
+          .qobuz-header {
+            padding: calc(8px + env(safe-area-inset-top)) 16px 8px 16px;
+            gap: 12px;
+          }
+          .qobuz-back-btn, .qobuz-close-btn, .qobuz-settings-btn {
+            min-width: 44px; min-height: 44px;
+            -webkit-tap-highlight-color: transparent;
+          }
           .qobuz-title { font-size: 16px; }
-          .qobuz-controls { padding: 12px 16px; }
-          .qobuz-input { font-size: 16px; padding: 12px 16px 12px 40px; }
-          .qobuz-tab { padding: 10px; min-height: 44px; -webkit-tap-highlight-color: transparent; }
-          .qobuz-content { padding-bottom: calc(60px + 64px); }
+
+          /* Sticky search controls so the bar doesn't scroll away */
+          .qobuz-controls {
+            position: sticky; top: 0;
+            background: var(--bg-elevated, #181818);
+            z-index: 10;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color, #2a2a2a);
+          }
+          .qobuz-input { font-size: 16px; padding: 12px 16px 12px 40px; } /* 16px prevents iOS zoom */
+          .qobuz-tabs { width: 100%; }
+          .qobuz-tab { padding: 6px 12px; min-height: unset; -webkit-tap-highlight-color: transparent; }
+
+          .qobuz-content {
+            max-height: none; flex: 1;
+            width: 100%; max-width: 100%; box-sizing: border-box;
+            overflow-x: hidden;
+            padding-bottom: calc(16px + env(safe-area-inset-bottom));
+          }
+
           .qobuz-hero { flex-direction: column; align-items: center; text-align: center; padding: 16px; gap: 16px; }
           .qobuz-hero-cover { width: 140px; height: 140px; }
           .qobuz-hero-title { font-size: 20px; }
           .qobuz-hero-meta { justify-content: center; }
+
           .qobuz-save-all-btn { padding: 10px 16px; min-height: 44px; -webkit-tap-highlight-color: transparent; }
-          .qobuz-track-item { grid-template-columns: 44px 1fr auto auto; padding: 10px 8px; -webkit-tap-highlight-color: transparent; }
+
+          .qobuz-track-item { grid-template-columns: 44px 1fr auto auto; padding: 6px 8px; -webkit-tap-highlight-color: transparent; align-items: center; }
           .qobuz-track-actions { opacity: 1; }
-          .qobuz-save-btn-mini { min-width: 44px; min-height: 44px; -webkit-tap-highlight-color: transparent; }
+          .qobuz-save-btn-mini { position: relative; min-width: unset; min-height: unset; padding: 10px 4px 10px 16px; -webkit-tap-highlight-color: transparent; }
+          .qobuz-save-btn-mini::after { content: ''; position: absolute; inset: -10px -4px; }
           .qobuz-play-overlay { display: none; }
-          .qobuz-grid-list { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 12px; }
-          .qobuz-card { -webkit-tap-highlight-color: transparent; }
+          .qobuz-clickable-artist { min-height: unset; display: inline; -webkit-tap-highlight-color: transparent; }
+
+          .qobuz-track-list { padding: 4px 12px 8px; }
+          .qobuz-section-header { padding: 8px 16px 4px; margin-top: 0; }
+          .qobuz-grid-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 8px 12px 12px; max-width: 100%; box-sizing: border-box; }
+          .qobuz-card { -webkit-tap-highlight-color: transparent; min-width: 0; max-width: 100%; box-sizing: border-box; overflow: hidden; padding: 8px; }
+          .qobuz-card-img { width: 100%; max-width: 100%; margin-bottom: 6px; }
+          .qobuz-card-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+          .qobuz-card-sub { overflow: hidden; }
+
           .qobuz-artist-avatar { width: 120px; height: 120px; font-size: 40px; }
-          .qobuz-clickable-artist { min-height: 44px; display: inline-flex; align-items: center; -webkit-tap-highlight-color: transparent; }
+          .qobuz-artist-card-avatar { font-size: 28px; }
+
+          /* Progress bar and toast */
+          #qobuz-save-progress {
+            bottom: calc(20px + env(safe-area-inset-bottom));
+            max-width: 90vw; min-width: auto; padding: 12px 20px;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .qobuz-badge { display: none; }
         }
       `;
       document.head.appendChild(style);
@@ -427,22 +468,22 @@
 
         <div id="qobuz-settings-panel">
           <div class="qobuz-settings-header">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-secondary,#aaa)"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             <div class="qobuz-title">Settings</div>
             <button class="qobuz-settings-close" title="Close settings">✕</button>
           </div>
           <div class="qobuz-settings-body">
-            <div class="qobuz-settings-section-title">Paxsenix API Key</div>
-            <div class="qobuz-api-key-row">
-              <input type="text" id="qobuz-pax-key-input" class="qobuz-api-key-input" placeholder="sk-paxsenix-…" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" inputmode="text">
+
+            <p style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--text-secondary,#aaa); margin:0 0 8px;">Paxsenix API Key</p>
+            <div style="display:flex; gap:8px; margin-bottom:8px;">
+              <input type="text" id="qobuz-pax-key-input" class="qobuz-api-key-input" placeholder="sk-paxsenix-…" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" inputmode="text" style="flex:1; min-width:0;">
               <button id="qobuz-pax-key-save" class="qobuz-api-key-save">Save</button>
             </div>
-            <div id="qobuz-pax-key-status" class="qobuz-api-key-status"></div>
+            <p id="qobuz-pax-key-status" class="qobuz-api-key-status" style="margin:0 0 16px;"></p>
 
-            <div class="qobuz-settings-section-title">Streaming Quality</div>
-            <div class="qobuz-quality-row" style="margin-bottom:24px;">
-              <label class="qobuz-quality-label">Quality</label>
-              <select id="qobuz-quality-select" class="qobuz-quality-select">
+            <p style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--text-secondary,#aaa); margin:0 0 8px;">Streaming Quality</p>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:20px;">
+              <span style="font-size:11px; color:var(--text-subdued,#666); white-space:nowrap;">Quality</span>
+              <select id="qobuz-quality-select" class="qobuz-quality-select" style="flex:1;">
                 <option value="320kbps">320 kbps</option>
                 <option value="CD">CD Lossless</option>
                 <option value="Hi-Res">Hi-Res</option>
@@ -451,24 +492,20 @@
             </div>
 
             <button id="qobuz-apikey-toggle" class="qobuz-apikey-toggle-btn">
-              
               <span>How to get your API key</span>
               <svg id="qobuz-apikey-arrow" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="transition:transform 0.2s; flex-shrink:0;"><path d="M7 10l5 5 5-5z"/></svg>
             </button>
-            <div id="qobuz-apikey-steps" style="display:none;">
-              <ol class="qobuz-steps" style="margin-top:8px;">
-                <li>Visit <a href="https://api.paxsenix.org/dashboard#api-keys" target="_blank" rel="noopener">api.paxsenix.org/dashboard</a> in your browser.</li>
-                <li>Click <strong>Sign in with GitHub</strong>. Create a GitHub account first if you don't have one.</li>
-                <li>Complete sign-in, then click <strong>Authorize paxsenix</strong> when prompted.</li>
-                <li>In the left sidebar, click <strong>API Keys</strong>.</li>
-                <li>At the bottom of the screen, click the <strong>Copy Key</strong> button.</li>
-                <li>Paste the key (looks like <code>sk-paxsenix-…</code>) into the field above and click <strong>Save</strong>.</li>
-              </ol>
+            <div id="qobuz-apikey-steps" style="display:none; padding:8px 0 4px;">
+              <p style="font-size:12px; color:var(--text-secondary,#ccc); line-height:1.5; margin:0 0 6px;"><span style="font-weight:700;">1.</span> Visit <a href="https://api.paxsenix.org/dashboard#api-keys" target="_blank" rel="noopener" style="color:var(--accent-primary,#1a62b9);">api.paxsenix.org/dashboard</a></p>
+              <p style="font-size:12px; color:var(--text-secondary,#ccc); line-height:1.5; margin:0 0 6px;"><span style="font-weight:700;">2.</span> Click <strong>Sign in with GitHub</strong> (create one if needed)</p>
+              <p style="font-size:12px; color:var(--text-secondary,#ccc); line-height:1.5; margin:0 0 6px;"><span style="font-weight:700;">3.</span> Click <strong>Authorize paxsenix</strong> when prompted</p>
+              <p style="font-size:12px; color:var(--text-secondary,#ccc); line-height:1.5; margin:0 0 6px;"><span style="font-weight:700;">4.</span> In the sidebar click <strong>API Keys</strong></p>
+              <p style="font-size:12px; color:var(--text-secondary,#ccc); line-height:1.5; margin:0 0 6px;"><span style="font-weight:700;">5.</span> Click <strong>Copy Key</strong> at the bottom</p>
+              <p style="font-size:12px; color:var(--text-secondary,#ccc); line-height:1.5; margin:0;"><span style="font-weight:700;">6.</span> Paste <code style="background:var(--bg-surface,#202020); padding:1px 5px; border-radius:3px; font-size:11px;">sk-paxsenix-…</code> into the field above and save</p>
             </div>
 
-            <div style="margin-top:auto; padding-top:24px; font-size:11px; color:var(--text-subdued,#555); line-height:1.7; text-align:center;">
-              For any problems / issues please contact us on Discord. Some ISPs block certain domains, so please try with a VPN if you face issues. Make sure you get the API key for streaming to work. Please try to post screenshots when posting an issue. Made with ❤️
-            </div>
+            <p style="margin-top:auto; padding-top:16px; font-size:11px; color:var(--text-subdued,#555); line-height:1.6; text-align:center;">For issues contact us on Discord. Try a VPN if domains are blocked. Include screenshots when reporting. Made with ❤️</p>
+
           </div>
         </div>
         
@@ -1492,24 +1529,95 @@
 
     renderSkeleton(type) {
       const container = document.getElementById("qobuz-content-area");
+      const s = (w, h, r='4px') => `<div class="qobux-skeleton" style="width:${w};height:${h};border-radius:${r};flex-shrink:0;"></div>`;
+
       if (type === 'search' && this.state.searchType === 'track') {
-        container.innerHTML = Array(6).fill('<div class="qobux-skeleton-row"></div>').join('');
-      } else if (type === 'search' || type === 'artist') {
-        container.innerHTML = `<div style="padding:20px; display:grid; grid-template-columns:repeat(auto-fill, minmax(160px,1fr)); gap:20px;">` +
-          Array(8).fill('<div class="qobux-skeleton-card"></div>').join('') + '</div>';
-      } else if (type === 'album') {
+        const row = `
+          <div style="display:grid; grid-template-columns:48px 1fr auto auto; align-items:center; gap:12px; padding:6px 8px;">
+            ${s('48px','48px')}
+            <div style="display:flex; flex-direction:column; gap:5px; min-width:0;">
+              ${s('60%','13px')}
+              ${s('40%','11px')}
+            </div>
+            ${s('32px','11px')}
+            ${s('16px','16px','50%')}
+          </div>`;
+        container.innerHTML = `<div class="qobuz-track-list">${Array(8).fill(row).join('')}</div>`;
+
+      } else if (type === 'search' && this.state.searchType === 'artist') {
+        const card = `
+          <div style="padding:8px; text-align:center;">
+            <div style="width:100%; aspect-ratio:1; background:#222; border-radius:50%; margin-bottom:8px; animation:qobux-pulse 1.5s infinite;"></div>
+            <div style="display:flex; justify-content:center; margin-bottom:5px;">${s('70%','13px')}</div>
+            <div style="display:flex; justify-content:center;">${s('40%','11px')}</div>
+          </div>`;
+        container.innerHTML = `<div class="qobuz-grid-list">${Array(8).fill(card).join('')}</div>`;
+
+      } else if (type === 'search') {
+        const card = `
+          <div style="padding:8px;">
+            <div style="aspect-ratio:1; background:#222; border-radius:6px; margin-bottom:6px; animation:qobux-pulse 1.5s infinite;"></div>
+            ${s('80%','13px')}
+            <div style="margin-top:5px;">${s('55%','11px')}</div>
+          </div>`;
+        container.innerHTML = `<div class="qobuz-grid-list">${Array(8).fill(card).join('')}</div>`;
+
+      } else if (type === 'artist-detail') {
+        const trackRow = `
+          <div style="display:grid; grid-template-columns:48px 1fr auto auto; align-items:center; gap:12px; padding:6px 8px;">
+            ${s('48px','48px')}
+            <div style="display:flex; flex-direction:column; gap:5px; min-width:0;">
+              ${s('55%','13px')}
+              ${s('35%','11px')}
+            </div>
+            ${s('32px','11px')}
+            ${s('16px','16px','50%')}
+          </div>`;
+        const albumCard = `
+          <div style="padding:8px;">
+            <div style="aspect-ratio:1; background:#222; border-radius:6px; margin-bottom:6px; animation:qobux-pulse 1.5s infinite;"></div>
+            ${s('80%','13px')}
+            <div style="margin-top:5px;">${s('55%','11px')}</div>
+          </div>`;
         container.innerHTML = `
-           <div style="padding:24px; display:flex; gap:24px;">
-             <div class="qobux-skeleton" style="width:160px; height:160px; flex-shrink:0;"></div>
-             <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:12px;">
-                <div class="qobux-skeleton" style="width:60%; height:24px;"></div>
-                <div class="qobux-skeleton" style="width:40%; height:16px;"></div>
-             </div>
-           </div>
-           <div style="padding:0 16px 24px;">
-             ${Array(5).fill('<div class="qobux-skeleton-row"></div>').join('')}
-           </div>
-         `;
+          <div class="qobuz-hero">
+            ${s('160px','160px','50%')}
+            <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:10px;">
+              ${s('25%','11px')}
+              ${s('65%','26px')}
+              ${s('45%','13px')}
+              ${s('90px','28px','20px')}
+            </div>
+          </div>
+          <div style="padding:8px 24px 4px;">${s('40%','14px')}</div>
+          <div class="qobuz-track-list">${Array(5).fill(trackRow).join('')}</div>
+          <div style="padding:8px 24px 4px; margin-top:8px;">${s('30%','14px')}</div>
+          <div class="qobuz-grid-list">${Array(4).fill(albumCard).join('')}</div>
+        `;
+
+      } else if (type === 'album') {
+        const trackRow = `
+          <div style="display:grid; grid-template-columns:48px 1fr auto auto; align-items:center; gap:12px; padding:6px 8px;">
+            ${s('48px','48px')}
+            <div style="display:flex; flex-direction:column; gap:5px; min-width:0;">
+              ${s('55%','13px')}
+              ${s('35%','11px')}
+            </div>
+            ${s('32px','11px')}
+            ${s('16px','16px','50%')}
+          </div>`;
+        container.innerHTML = `
+          <div class="qobuz-hero">
+            ${s('160px','160px','8px')}
+            <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:10px;">
+              ${s('30%','11px')}
+              ${s('70%','26px')}
+              ${s('50%','13px')}
+              ${s('90px','28px','20px')}
+            </div>
+          </div>
+          <div class="qobuz-track-list">${Array(6).fill(trackRow).join('')}</div>
+        `;
       }
     },
 
@@ -1877,8 +1985,8 @@
             ${!isCompact
               ? `<div class="qobuz-track-artist">
                   <span class="qobuz-clickable-artist" data-artist-id="${track.artistId || ""}">${this.escapeHtml(track.artist)}</span>
-                  ${track.albumTitle ? `<span style="color:var(--text-subdued,#666); font-size:16px; margin:0 4px; line-height:1;">·</span><span class="qobuz-clickable-album" data-album-id="${track.albumId || ""}" data-album-upc="${track.albumUpc || ""}">${this.escapeHtml(track.albumTitle)}</span>` : ""}
-                  ${qualityLabel ? `<span style="color:var(--text-subdued,#666); font-size:16px; margin:0 4px; line-height:1;">·</span><span style="color:var(--text-subdued,#555); font-size:11px;">${this.escapeHtml(qualityLabel)}</span>` : ""}
+                  ${track.albumTitle ? `<span style="color:var(--text-subdued,#666); font-size:11px; margin:0 3px; line-height:1;">·</span><span class="qobuz-clickable-album" data-album-id="${track.albumId || ""}" data-album-upc="${track.albumUpc || ""}">${this.escapeHtml(track.albumTitle)}</span>` : ""}
+                  ${qualityLabel ? `<span style="color:var(--text-subdued,#666); font-size:11px; margin:0 3px; line-height:1;">·</span><span style="color:var(--text-subdued,#555); font-size:11px;">${this.escapeHtml(qualityLabel)}</span>` : ""}
                 </div>`
               : (qualityLabel ? `<div style="font-size:11px; color:var(--text-subdued,#555); margin-top:2px;">${this.escapeHtml(qualityLabel)}</div>` : "")}
           </div>
@@ -2003,13 +2111,15 @@
     },
 
     async loadAlbumPage(id, title) {
+      document.getElementById("qobuz-controls-area")?.classList.add("hidden");
       this.showToast("Loading Album...");
       const albumData = await this.fetchAlbumDetails(id);
       this.navigateTo("album", albumData, albumData?.title || title);
     },
 
     async loadArtistPage(id, name) {
-      this.renderSkeleton("artist");
+      document.getElementById("qobuz-controls-area")?.classList.add("hidden");
+      this.renderSkeleton("artist-detail");
       const artistData = await this.buildArtistData(id, name);
       this.navigateTo("artist", artistData, name);
     },
