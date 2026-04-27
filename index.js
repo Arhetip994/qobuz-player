@@ -88,6 +88,14 @@
         });
       }
 
+      // register as a search source
+      // must call onResult exactly once
+      if (api.search && api.search.registerSource) {
+        api.search.registerSource(SOURCE_TYPE, (query, onResult) => {
+          this.handleSearchQuery(query, onResult);
+        });
+      }
+
       // Register searchCover request handler for inter-plugin use
       if (api.handleRequest) {
         api.handleRequest("searchCover", async (data) => {
@@ -725,6 +733,192 @@
         backBtn.classList.remove("hidden");
         controls.classList.add("hidden");
       }
+    },
+
+    // search registry handler
+    // called by runtime when another plugin queries api.search.query
+    // must call onResult exactly once with status success, not_found,error
+
+    async handleSearchQuery(query, onResult) {
+      try {
+        const searchQuery = `${query.title} ${query.artist || ""}`.trim();
+
+        // try each provider in priority order, stopping on first usable result
+
+        // paxsenix
+        const paxAuth = getPaxAuth();
+        if (paxAuth) {
+          try {
+            const url = `https://api.paxsenix.org/qobuz/search?q=${encodeURIComponent(searchQuery)}`;
+            const res = await (this.api.fetch
+              ? this.api.fetch(url, { headers: { "Authorization": paxAuth, "Content-Type": "application/json" } })
+              : fetch(url,          { headers: { "Authorization": paxAuth, "Content-Type": "application/json" } }));
+            if (res.ok) {
+              const data = await res.json();
+              if (data.ok) {
+                const items = (data.tracks || []).map(t => ({
+                  id:          String(t.id),
+                  title:       t.title + (t.version ? ` (${t.version})` : ""),
+                  artist:      t.performer?.name || t.artist?.name || "Unknown Artist",
+                  albumTitle:  t.album?.title    || "",
+                  duration:    t.duration        || 0,
+                  cover:       t.album?.image?.large || t.album?.image?.small || null,
+                  bitDepth:    t.maximum_bit_depth     || null,
+                  sampleRate:  t.maximum_sampling_rate || null,
+                  isHiRes:     !!(t.hires_streamable),
+                  trackNumber: t.track_number    || null,
+                  discNumber:  t.media_number    || null,
+                  isrc:        t.isrc            || null,
+                  _source:     "paxsenix"
+                }));
+
+                const best = this._pickBestMatch(items, query);
+                if (best) { onResult(this.qobuzTrackToSearchResult(best.track, best.score)); return; }
+              }
+            }
+          } catch (e) {
+            console.warn("[QobuzSearch] handleSearchQuery — Paxsenix failed:", e.message);
+          }
+        }
+
+        // jumo-dl
+        try {
+          const url = `${JUMO_BASE}/search?query=${encodeURIComponent(searchQuery)}&offset=0&limit=20&region=NZ`;
+          const res = await (this.api.fetch
+            ? this.api.fetch(url, { headers: JUMO_HEADERS })
+            : fetch(url, { headers: JUMO_HEADERS }));
+          if (res.ok) {
+            const data = await res.json();
+            const items = (data.tracks?.items || []).map(t => ({
+              id:          String(t.id),
+              title:       t.title + (t.version ? ` (${t.version})` : ""),
+              artist:      t.performer?.name || t.artist?.name || "Unknown Artist",
+              albumTitle:  t.album?.title    || "",
+              duration:    t.duration        || 0,
+              cover:       t.album?.image?.large || t.album?.image?.small || null,
+              bitDepth:    t.maximum_bit_depth     || null,
+              sampleRate:  t.maximum_sampling_rate || null,
+              isHiRes:     !!(t.hires_streamable),
+              trackNumber: t.track_number    || null,
+              discNumber:  t.media_number    || null,
+              isrc:        t.isrc            || null,
+              _source:     "jumo"
+            }));
+
+            const best = this._pickBestMatch(items, query);
+            if (best) { onResult(this.qobuzTrackToSearchResult(best.track, best.score)); return; }
+          }
+        } catch (e) {
+          console.warn("[QobuzSearch] handleSearchQuery — jumo-dl failed:", e.message);
+        }
+
+        // YAMS
+        try {
+          const url = `${YAMS_SEARCH_BASE}?query=${encodeURIComponent(searchQuery)}`;
+          const res = await (this.api.fetch ? this.api.fetch(url) : fetch(url));
+          if (res.ok) {
+            const data = await res.json();
+            const items = (data.tracks || [])
+              .filter(t => t.platform === "qobuz")
+              .map(t => ({
+                id:         `qobuz:${t.id}`,
+                title:       t.title,
+                artist:      t.artist || "Unknown Artist",
+                albumTitle:  t.album  || "",
+                duration:    t.duration || 0,
+                cover:       t.cover   || null,
+                bitDepth:    null,
+                sampleRate:  null,
+                isHiRes:     false,
+                isrc:        null,
+                _source:     "yams"
+              }));
+
+            const best = this._pickBestMatch(items, query);
+            if (best) { onResult(this.qobuzTrackToSearchResult(best.track, best.score)); return; }
+          }
+        } catch (e) {
+          console.warn("[QobuzSearch] handleSearchQuery — YAMS failed:", e.message);
+        }
+
+        // all providers exhausted
+        onResult({ sourceId: SOURCE_TYPE, status: "not_found" });
+      } catch (err) {
+        console.error("[QobuzSearch] handleSearchQuery error:", err);
+        onResult({ sourceId: SOURCE_TYPE, status: "error", error: err });
+      }
+    },
+
+    // score all candidates and return the best one above threshold, or null
+    _pickBestMatch(items, query) {
+      if (!items.length) return null;
+      const scored = items
+        .map(t => ({ track: t, score: this.calculateMatchScore(t, query) }))
+        .sort((a, b) => b.score - a.score);
+      return scored[0].score >= 60 ? scored[0] : null;
+    },
+
+    calculateMatchScore(track, query) {
+      let score = 0;
+      const n = (s) => (s || "").toLowerCase().replace(/[^\w\s]/g, "").replace(/\s+/g, " ").trim();
+
+      const tTitle = n(track.title);
+      const qTitle = n(query.title);
+      if (tTitle === qTitle) score += 50;
+      else if (tTitle.includes(qTitle) || qTitle.includes(tTitle)) score += 30;
+
+      const tArtist = n(track.artist);
+      const qArtist = n(query.artist || "");
+      if (tArtist === qArtist) score += 30;
+      else if (tArtist.includes(qArtist) || qArtist.includes(tArtist)) score += 15;
+
+      if (query.duration_ms && track.duration) {
+        const diff = Math.abs(track.duration - query.duration_ms / 1000);
+        if (diff < 5) score += 20;
+        else if (diff < 10) score += 10;
+      }
+
+      if (track.isrc && query.isrc && track.isrc === query.isrc) score += 100;
+
+      return score;
+    },
+
+    // normalize qobuz track object into a shared SearchResult
+    qobuzTrackToSearchResult(track, score = 0) {
+      const externalId = String(track.id).startsWith("qobuz:")
+        ? String(track.id).split(":")[1]
+        : String(track.id);
+
+      const format = (track.bitDepth && track.sampleRate)
+        ? `${track.bitDepth}bit/${track.sampleRate}kHz`
+        : (track.isHiRes ? "Hi-Res" : "CD");
+
+      return {
+        sourceId:    SOURCE_TYPE,
+        status:      "success",
+        source_type: SOURCE_TYPE,
+        external_id: externalId,
+        title:       track.title,
+        artist:      track.artist  || null,
+        album:       track.albumTitle || null,
+        duration:    track.duration   || null,
+        cover_url:   track.cover      || null,
+        album_art:   track.cover      || null,
+        track_number: track.trackNumber || null,
+        disc_number:  track.discNumber  || null,
+        format,
+        bitrate:     null,
+        musicbrainz_recording_id: null,
+        metadata_json: {
+          isrc:        track.isrc        || null,
+          bit_depth:   track.bitDepth    || null,
+          sample_rate: track.sampleRate  || null,
+          is_hi_res:   track.isHiRes     || false,
+          provider:    track._source     || null,
+        },
+        score,
+        raw: track,
+      };
     },
 
     // ═══════════════════════════════════════════════════════════════════
@@ -2166,31 +2360,14 @@
 
     async saveTrack(track, btn) {
       try {
-        const externalId = String(track.id).startsWith("qobuz:")
-          ? String(track.id).split(":")[1]
-          : String(track.id);
-        if (this.libraryTracks.has(externalId)) {
+        const result = this.qobuzTrackToSearchResult(track);
+        if (this.libraryTracks.has(result.external_id)) {
           this.showToast("Already in library");
           return;
         }
-
         if (this.api?.library?.addExternalTrack) {
-          await this.api.library.addExternalTrack({
-            title:        track.title,
-            artist:       track.artist,
-            album:        track.albumTitle  || null,
-            duration:     track.duration    || null,
-            cover_url:    track.cover || track.albumCover || null,
-            track_number: track.trackNumber || null,
-            disc_number:  track.discNumber  || null,
-            format:       (track.bitDepth && track.sampleRate)
-              ? `${track.bitDepth}bit/${track.sampleRate}kHz`
-              : (track.isHiRes ? "Hi-Res" : "CD"),
-            bitrate:      null,
-            source_type:  SOURCE_TYPE,
-            external_id:  externalId
-          });
-          this.libraryTracks.add(externalId);
+          await this.api.library.addExternalTrack(result);
+          this.libraryTracks.add(result.external_id);
           if (btn) { btn.classList.add("saved"); btn.innerHTML = ICONS.heart; btn.title = "Saved to Library"; }
           this.showToast(`Saved: ${track.title}`);
           this.hasNewChanges = true;
@@ -2219,30 +2396,16 @@
         if (progressBar)  progressBar.style.width = `${pct}%`;
         if (progressText) progressText.textContent = `Saving ${i + 1} of ${tracks.length} tracks...`;
 
-        const externalId = String(track.id).startsWith("qobuz:")
-          ? String(track.id).split(":")[1]
-          : String(track.id);
+        const result = this.qobuzTrackToSearchResult(
+          albumData ? { ...track, albumTitle: track.albumTitle || albumData.title, cover: track.cover || albumData.cover, artist: track.artist || albumData.artist } : track
+        );
 
-        if (this.libraryTracks.has(externalId)) { skippedCount++; continue; }
+        if (this.libraryTracks.has(result.external_id)) { skippedCount++; continue; }
 
         try {
           if (this.api?.library?.addExternalTrack) {
-            await this.api.library.addExternalTrack({
-              title:        track.title,
-              artist:       track.artist || albumData?.artist || null,
-              album:        track.albumTitle || albumData?.title || null,
-              duration:     track.duration   || null,
-              cover_url:    track.cover || albumData?.cover || null,
-              track_number: track.trackNumber || null,
-              disc_number:  track.discNumber  || null,
-              format:       (track.bitDepth && track.sampleRate)
-                ? `${track.bitDepth}bit/${track.sampleRate}kHz`
-                : (track.isHiRes ? "Hi-Res" : "CD"),
-              bitrate:      null,
-              source_type:  SOURCE_TYPE,
-              external_id:  externalId,
-            });
-            this.libraryTracks.add(externalId);
+            await this.api.library.addExternalTrack(result);
+            this.libraryTracks.add(result.external_id);
             savedCount++;
 
             // Update heart icon if row is visible
@@ -2316,19 +2479,8 @@
 
           try {
             // addExternalTrack returns the internal DB track ID
-            const trackId = await this.api.library.addExternalTrack({
-              title:       track.title,
-              artist:      track.artist   || null,
-              album:       track.albumTitle || null,
-              duration:    track.duration  || null,
-              cover_url:   track.cover     || null,
-              format:      (track.bitDepth && track.sampleRate)
-                ? `${track.bitDepth}bit/${track.sampleRate}kHz`
-                : (track.isHiRes ? "Hi-Res" : "CD"),
-              bitrate:     null,
-              source_type: SOURCE_TYPE,
-              external_id: externalId,
-            });
+            const result = this.qobuzTrackToSearchResult(track);
+            const trackId = await this.api.library.addExternalTrack(result);
 
             if (trackId && this.api.library.addTrackToPlaylist) {
               await this.api.library.addTrackToPlaylist(playlistId, Number(trackId));
@@ -2449,24 +2601,6 @@
       document.getElementById("qobuz-search-btn")?.remove();
       document.getElementById("qobuz-save-progress")?.remove();
     }
-  };
-
-  // Expose API for other plugins with permission
-  window.QobuzSearchAPI = {
-    searchCover: async (title, artist, trackId, callerPluginId) => {
-      const permissionManager = window.__PLUGIN_PERMISSION_MANAGER__;
-      if (!permissionManager) {
-        console.error("[QobuzSearch] Permission manager not available");
-        throw new Error("Permission system not initialized");
-      }
-      try {
-        await permissionManager.validateAccess(callerPluginId, "Qobuz Search", "searchCover");
-      } catch (error) {
-        console.error("[QobuzSearch] Permission denied:", error.message);
-        throw error;
-      }
-      return QobuzSearch.searchCoverForRPC(title, artist, trackId);
-    },
   };
 
   if (typeof Audion !== "undefined" && Audion.register) {
