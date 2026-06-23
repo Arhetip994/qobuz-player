@@ -1,52 +1,164 @@
-# Qobuz Search
+# Qobuz Downloader GUI
 
-**Stream high-quality music directly from Qobuz.**
+A dark, desktop Qobuz downloader for Windows with search, album browsing, quick preview playback, metadata tagging, and MusicBee-friendly downloads.
 
-This plugin integrates the Qobuz music catalog into Audion, allowing you to search for tracks, albums, and artists, and stream them directly within the app. It supports high-resolution audio and library management.
-
-<img width="1276" height="803" alt="image" src="https://github.com/user-attachments/assets/1c795bc3-e8e7-4390-b961-ec77a527b82d" />
-
-<img width="1278" height="793" alt="image" src="https://github.com/user-attachments/assets/1cb58bbe-3d52-4e8f-83de-ebd32a925f1b" />
+> This project uses the Paxsenix API as a Qobuz search/download proxy. You need your own Paxsenix API key.
 
 ## Features
 
-- **Direct Search**: Search the entire Qobuz catalog for Tracks, Albums, and Artists.
-- **High-Res Streaming**: Supports streaming in Lossless and Hi-Res formats (flac).
-- **Library Integration**: Save tracks directly to your Audion library with a single click.
-- **Album Browsing**: View full album details, tracklists, and release dates.
-- **Artist Discography**: Explore an artist's full catalog of albums.
-- **"Save All"**: Add entire albums to your library at once.
-- **Visual Polish**: Beautiful grid layouts, skeleton loading states, and responsive design.
+- Search tracks, albums, and artists
+- Browse album tracklists
+- Download selected tracks
+- Choose quality: `320kbps`, `CD`, `Hi-Res`, or `Studio Quality`
+- Built-in track preview player
+- Automatic filename formatting
+- Automatic tags for title, artist, album, track number, and cover art
+- Dark Spotify/Yandex Music inspired interface
+- Silent launch through `run.vbs`
+- Windows EXE build script included
 
-## Installation
+## Requirements
 
-1. Open Audion.
-2. Go to **Settings > Plugins**.
-3. Click **Open Plugin Folder**.
-4. Download or clone this plugin into the `plugins` directory.
-   - Folder name should be `qubuz-search`.
-5. Restart Audion or click **Reload Plugins**.
-6. Enable the plugin in the settings menu.
+- Windows
+- Python 3.10 or newer
+- Paxsenix API key from [api.paxsenix.org](https://api.paxsenix.org)
 
-## Usage
+## Quick Start
 
-1. **Open Search**: Click the **Qobuz** button in the player bar (search icon).
-2. **Search**: Type your query in the search bar.
-3. **Filter**: Switch between **Tracks** and **Albums** tabs.
-4. **Play**: Click any track to start streaming immediately.
-5. **Save**: Click the Heart icon next to any track to add it to your local library.
-6. **Browse**: Click on an Artist or Album card to view more details.
+1. Clone or download this repository.
+2. Run:
 
-## Configuration
+```bat
+run.bat
+```
 
-This plugin uses a custom API proxy (`dabmusic.xyz`) to interface with Qobuz. No personal Qobuz account login is required for standard streaming, as it uses the proxy's resolution capabilities.
+The script installs the required Python packages and starts the app.
 
-## Permissions
+If you do not want a console window, run:
 
-This plugin requires the following permissions:
-- `network:fetch`: To search and stream from the API.
-- `ui:inject`: To show the search panel.
-- `player:control`: To play tracks.
-- `library:write`: To save tracks to your library.
+```bat
+run.vbs
+```
 
-- `library:read`: To check if tracks are already saved.
+## API Key Setup
+
+1. Open [api.paxsenix.org](https://api.paxsenix.org)
+2. Create an account and copy your API key
+3. Open the app
+4. Go to Settings
+5. Paste the key into the `Paxsenix API Key` field
+
+## Building EXE
+
+Run:
+
+```bat
+build_exe.bat
+```
+
+The compiled app will appear in:
+
+```text
+dist\QobuzDownloader.exe
+```
+
+## Desktop Shortcut
+
+To create a desktop shortcut with an icon, run:
+
+```bat
+python create_shortcut.py
+```
+
+## Notes
+
+- Preview playback uses a temporary `320kbps` cached file.
+- Downloads use the quality selected in the sidebar.
+- Files can be saved directly into your MusicBee library folder.
+- This app is not affiliated with Qobuz, MusicBee, or Paxsenix.
+
+## GitHub Repository Description
+
+```text
+Dark Windows GUI for searching, previewing, and downloading Qobuz tracks with metadata tagging, album browsing, and MusicBee-friendly output.
+```
+
+---
+
+# Qobuz Downloader GUI на русском
+
+Тёмное desktop-приложение для Windows: поиск музыки в Qobuz, просмотр альбомов, прослушивание треков, скачивание в нужную папку и автоматическая запись тегов.
+
+> Приложение работает через Paxsenix API. Нужен свой API ключ.
+
+## Возможности
+
+- Поиск треков, альбомов и исполнителей
+- Просмотр треков внутри альбома
+- Скачивание выбранных треков
+- Выбор качества: `320kbps`, `CD`, `Hi-Res`, `Studio Quality`
+- Встроенное прослушивание треков
+- Настраиваемый шаблон имени файла
+- Автоматические теги: название, исполнитель, альбом, номер трека и обложка
+- Тёмный интерфейс в стиле Spotify / Яндекс Музыки
+- Запуск без командной строки через `run.vbs`
+- Скрипт сборки в `.exe`
+
+## Что нужно
+
+- Windows
+- Python 3.10 или новее
+- API ключ Paxsenix с [api.paxsenix.org](https://api.paxsenix.org)
+
+## Быстрый запуск
+
+Запусти:
+
+```bat
+run.bat
+```
+
+Скрипт сам установит нужные библиотеки и откроет приложение.
+
+Если хочешь запуск без окна командной строки:
+
+```bat
+run.vbs
+```
+
+## Как добавить API ключ
+
+1. Открой [api.paxsenix.org](https://api.paxsenix.org)
+2. Зарегистрируйся и скопируй API ключ
+3. Открой приложение
+4. Нажми `Настройки`
+5. Вставь ключ в поле `Paxsenix API Key`
+
+## Сборка в EXE
+
+Запусти:
+
+```bat
+build_exe.bat
+```
+
+Готовый файл появится здесь:
+
+```text
+dist\QobuzDownloader.exe
+```
+
+## Ярлык на рабочем столе
+
+Чтобы создать ярлык с иконкой:
+
+```bat
+python create_shortcut.py
+```
+
+## Примечания
+
+- Для прослушивания используется временный кэш в `320kbps`.
+- Для скачивания используется качество, выбранное в боковой панели.
+- Папкой загрузки можно указать папку библиотеки MusicBee.
+- Проект не связан официально с Qobuz, MusicBee или Paxsenix.
