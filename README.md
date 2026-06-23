@@ -1,142 +1,164 @@
-# Qobuz Downloader GUI
+# Qobuz Player
 
-A dark, desktop Qobuz downloader for Windows with search, album browsing, quick preview playback, metadata tagging, and MusicBee-friendly downloads.
+Qobuz search and playback tools in two formats:
 
-> This project uses the Paxsenix API as a Qobuz search/download proxy. You need your own Paxsenix API key.
+- `Audion plugin` for in-app Qobuz search and playback
+- `Windows desktop app` for searching, previewing, and downloading tracks
 
-## Features
+This repository now contains both versions in one place.
+
+## Repository Description
+
+```text
+Qobuz tools for Audion and Windows: search, preview, stream, and download tracks with a dark UI and metadata-aware downloads.
+```
+
+## Contents
+
+- `index.js` and `plugin.json` - Audion plugin
+- `qobuz_gui.py` - standalone Windows desktop app
+- `run.bat` - start the desktop app
+- `run.vbs` - start the desktop app without a console window
+- `build_exe.bat` - build the desktop app into an EXE
+- `create_shortcut.py` - create a desktop shortcut with an icon
+- `icon.png` - plugin icon
+- `icon.ico` - desktop shortcut / app icon
+
+---
+
+# English
+
+## 1. Audion Plugin
+
+The original plugin lets you search Qobuz content inside Audion and stream tracks directly in the player.
+
+### Plugin Features
 
 - Search tracks, albums, and artists
-- Browse album tracklists
-- Download selected tracks
-- Choose quality: `320kbps`, `CD`, `Hi-Res`, or `Studio Quality`
-- Built-in track preview player
-- Automatic filename formatting
-- Automatic tags for title, artist, album, track number, and cover art
-- Dark Spotify/Yandex Music inspired interface
-- Silent launch through `run.vbs`
-- Windows EXE build script included
+- Stream Qobuz tracks inside Audion
+- Browse album pages and artist pages
+- Save tracks into the library
+- Uses Paxsenix and fallback providers for search and streaming
 
-## Requirements
+### Plugin Files
+
+- `plugin.json`
+- `index.js`
+- `icon.png`
+
+## 2. Windows Desktop App
+
+The desktop app is a separate GUI app for Windows with a dark interface inspired by Spotify and Yandex Music.
+
+### Desktop App Features
+
+- Search tracks, albums, and artists
+- Open album tracklists
+- Preview tracks inside the app
+- Download tracks to any folder
+- Choose quality: `320kbps`, `CD`, `Hi-Res`, `Studio Quality`
+- Automatic tags for title, artist, album, track number, and cover art
+- MusicBee-friendly output
+
+### Requirements
 
 - Windows
 - Python 3.10 or newer
 - Paxsenix API key from [api.paxsenix.org](https://api.paxsenix.org)
 
-## Quick Start
-
-1. Clone or download this repository.
-2. Run:
+### Run the Desktop App
 
 ```bat
 run.bat
 ```
 
-The script installs the required Python packages and starts the app.
-
-If you do not want a console window, run:
+For silent launch without a console window:
 
 ```bat
 run.vbs
 ```
 
-## API Key Setup
-
-1. Open [api.paxsenix.org](https://api.paxsenix.org)
-2. Create an account and copy your API key
-3. Open the app
-4. Go to Settings
-5. Paste the key into the `Paxsenix API Key` field
-
-## Building EXE
-
-Run:
+### Build EXE
 
 ```bat
 build_exe.bat
 ```
 
-The compiled app will appear in:
+The built file will appear in:
 
 ```text
 dist\QobuzDownloader.exe
 ```
 
-## Desktop Shortcut
-
-To create a desktop shortcut with an icon, run:
+### Create Desktop Shortcut
 
 ```bat
 python create_shortcut.py
 ```
 
-## Notes
+### API Key Setup
 
-- Preview playback uses a temporary `320kbps` cached file.
-- Downloads use the quality selected in the sidebar.
-- Files can be saved directly into your MusicBee library folder.
-- This app is not affiliated with Qobuz, MusicBee, or Paxsenix.
-
-## GitHub Repository Description
-
-```text
-Dark Windows GUI for searching, previewing, and downloading Qobuz tracks with metadata tagging, album browsing, and MusicBee-friendly output.
-```
+1. Open [api.paxsenix.org](https://api.paxsenix.org)
+2. Create an account
+3. Copy your API key
+4. Open the desktop app settings
+5. Paste the key into the `Paxsenix API Key` field
 
 ---
 
-# Qobuz Downloader GUI на русском
+# Русский
 
-Тёмное desktop-приложение для Windows: поиск музыки в Qobuz, просмотр альбомов, прослушивание треков, скачивание в нужную папку и автоматическая запись тегов.
+## 1. Плагин для Audion
 
-> Приложение работает через Paxsenix API. Нужен свой API ключ.
+Исходная часть репозитория - это плагин для Audion, который позволяет искать музыку в Qobuz и проигрывать её прямо внутри плеера.
 
-## Возможности
+### Возможности плагина
 
 - Поиск треков, альбомов и исполнителей
-- Просмотр треков внутри альбома
-- Скачивание выбранных треков
-- Выбор качества: `320kbps`, `CD`, `Hi-Res`, `Studio Quality`
-- Встроенное прослушивание треков
-- Настраиваемый шаблон имени файла
-- Автоматические теги: название, исполнитель, альбом, номер трека и обложка
-- Тёмный интерфейс в стиле Spotify / Яндекс Музыки
-- Запуск без командной строки через `run.vbs`
-- Скрипт сборки в `.exe`
+- Проигрывание треков внутри Audion
+- Просмотр страниц альбомов и исполнителей
+- Сохранение треков в библиотеку
+- Работа через Paxsenix и резервные провайдеры
 
-## Что нужно
+### Файлы плагина
+
+- `plugin.json`
+- `index.js`
+- `icon.png`
+
+## 2. Отдельное приложение для Windows
+
+В репозиторий также добавлено отдельное desktop-приложение для Windows с тёмным интерфейсом, поиском, прослушиванием и скачиванием.
+
+### Возможности приложения
+
+- Поиск треков, альбомов и исполнителей
+- Открытие треков внутри альбома
+- Прослушивание треков прямо в приложении
+- Скачивание в любую папку
+- Выбор качества: `320kbps`, `CD`, `Hi-Res`, `Studio Quality`
+- Автоматическая запись тегов и обложки
+- Удобная выгрузка в библиотеку MusicBee
+
+### Что нужно
 
 - Windows
 - Python 3.10 или новее
 - API ключ Paxsenix с [api.paxsenix.org](https://api.paxsenix.org)
 
-## Быстрый запуск
-
-Запусти:
+### Запуск приложения
 
 ```bat
 run.bat
 ```
 
-Скрипт сам установит нужные библиотеки и откроет приложение.
-
-Если хочешь запуск без окна командной строки:
+Если нужен запуск без окна командной строки:
 
 ```bat
 run.vbs
 ```
 
-## Как добавить API ключ
-
-1. Открой [api.paxsenix.org](https://api.paxsenix.org)
-2. Зарегистрируйся и скопируй API ключ
-3. Открой приложение
-4. Нажми `Настройки`
-5. Вставь ключ в поле `Paxsenix API Key`
-
-## Сборка в EXE
-
-Запусти:
+### Сборка в EXE
 
 ```bat
 build_exe.bat
@@ -148,17 +170,16 @@ build_exe.bat
 dist\QobuzDownloader.exe
 ```
 
-## Ярлык на рабочем столе
-
-Чтобы создать ярлык с иконкой:
+### Ярлык на рабочем столе
 
 ```bat
 python create_shortcut.py
 ```
 
-## Примечания
+### Как добавить API ключ
 
-- Для прослушивания используется временный кэш в `320kbps`.
-- Для скачивания используется качество, выбранное в боковой панели.
-- Папкой загрузки можно указать папку библиотеки MusicBee.
-- Проект не связан официально с Qobuz, MusicBee или Paxsenix.
+1. Открой [api.paxsenix.org](https://api.paxsenix.org)
+2. Зарегистрируйся
+3. Скопируй API ключ
+4. Открой настройки приложения
+5. Вставь ключ в поле `Paxsenix API Key`
